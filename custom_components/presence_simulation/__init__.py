@@ -343,6 +343,8 @@ async def async_mysetup(hass, entities, deltaStr, refreshInterval, restoreParam,
                     service_data[color_mode] = state.attributes[color_mode]
             if state.state == "on" or state.state == "off":
                 await hass.services.async_call("light", "turn_"+state.state, service_data, blocking=False)
+            elif state.state == "unavailable":
+                await hass.services.async_call("light", "turn_off", service_data, blocking=False)
             else:
                 _LOGGER.debug("State in neither on nor off (is %s), do nothing", state.state)
 
